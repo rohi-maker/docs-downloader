@@ -1,6 +1,8 @@
 package com.docsDownloaderProject.service;
 
+import com.docsDownloaderProject.exception.GoogleDocsDownloaderException;
 import com.docsDownloaderProject.model.GoogleDoc;
+import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -19,9 +21,10 @@ public class SaveGoogleDocService {
             FileOutputStream outputStream = new FileOutputStream(file);
             outputStream.write((title + "\n" + content).getBytes(Charset.defaultCharset()));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new GoogleDocsDownloaderException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         } catch (RuntimeException e) {
-            System.out.println("SOME ERROR OCCURS");
+            throw new GoogleDocsDownloaderException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+
         }
     }
 }

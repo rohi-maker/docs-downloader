@@ -1,2 +1,9 @@
 FIRST DOCUMENT
 MY FIRST DOCUMENT 
+
+Java defines the syntax and semantics of the Java programming language. This includes the basic vocabulary and rules used to write algorithms such as primitive data types, if/else blocks, loops, etc.
+APIs are important software components bundled with the Java Platform. These are pre-written Java programs that can plug and play existing functionality into your own code. For example, you could use Java APIs to get the date and time, perform mathematical operations, or manipulate text. 
+Any Java application code written by a developer will typically combine new and pre-existing code from Java APIs and Java libraries.
+
+
+

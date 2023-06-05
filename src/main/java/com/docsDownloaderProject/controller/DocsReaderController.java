@@ -1,9 +1,12 @@
 package com.docsDownloaderProject.controller;
 
+import com.docsDownloaderProject.exception.GoogleDocsDownloaderException;
 import com.docsDownloaderProject.model.GoogleDoc;
 import com.docsDownloaderProject.service.GoogleDocsApiService;
 import com.docsDownloaderProject.service.SaveGoogleDocService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@Slf4j
 public class DocsReaderController {
 
     @Autowired
@@ -33,11 +37,10 @@ public class DocsReaderController {
                 var googleDocResponse = googleDocService.getGoogleDoc(docId);
                 googleDocResponses.add(googleDocResponse);
             }
-//            GoogleDoc fetchedDoc = service.getGoogleDoc("1Kr__ADJPhpMe--8JYFe27Wj7LT2Lz_nY8Bbs6-OeWhg");
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new GoogleDocsDownloaderException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         } catch (RuntimeException e) {
-            System.out.println("SOME ERROR TAKES PLACE");
+            throw new GoogleDocsDownloaderException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
         googleDocResponses.forEach(googleDoc -> docWriterService.writeGoogleDocObject(googleDoc));
         return ResponseEntity.ok("SUCCESSFULLY SAVED ALL THE GOOGLE DOCS");

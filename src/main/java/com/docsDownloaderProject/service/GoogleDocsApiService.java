@@ -18,9 +18,19 @@ public class GoogleDocsApiService {
         var googleDocsResponse = apiClient.getGoogleDocs(docId);
         String title = googleDocsResponse.getBody().get("title").toString();
         JSONObject jsonObject = new JSONObject(new ObjectMapper().writeValueAsString(googleDocsResponse.getBody()));
-        JSONObject secondElement = ((JSONArray) jsonObject.getJSONObject("body").get("content")).getJSONObject(1);
-        JSONObject finalObject = (JSONObject) secondElement.getJSONObject("paragraph").getJSONArray("elements").get(0);
-        String documentContent = finalObject.getJSONObject("textRun").get("content").toString();
-        return new GoogleDoc(title,documentContent);
+        JSONArray paragraphs = ((JSONArray) jsonObject.getJSONObject("body").getJSONArray("content"));
+        String documentContent = getJsonContent(paragraphs);
+        return new GoogleDoc(title, documentContent);
+    }
+
+    private String getJsonContent(JSONArray jsonArray) {
+        String jsonContent = "";
+        for (int i = 1; i < jsonArray.length(); i++) {
+            JSONObject secondElement = (JSONObject) jsonArray.get(i);
+            JSONObject finalObject = (JSONObject) secondElement.getJSONObject("paragraph").getJSONArray("elements").get(0);
+            String documentContent = finalObject.getJSONObject("textRun").get("content").toString();
+            jsonContent += documentContent;
+        }
+        return jsonContent;
     }
 }
