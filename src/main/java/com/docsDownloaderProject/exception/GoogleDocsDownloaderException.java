@@ -1,5 +1,8 @@
 package com.docsDownloaderProject.exception;
 
+import lombok.Getter;
+
+@Getter
 public class GoogleDocsDownloaderException extends RuntimeException {
     private int statusCode;
     private String message;

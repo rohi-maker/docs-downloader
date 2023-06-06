@@ -1,6 +1,7 @@
 package com.docsDownloaderProject.config;
 
 import com.docsDownloaderProject.exception.GoogleDocsDownloaderException;
+import com.google.api.services.docs.v1.Docs;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,6 @@ public class FeignErrorDecoder implements ErrorDecoder {
         } else if (responseStatus.is5xxServerError()) {
             throw new GoogleDocsDownloaderException(responseStatus.value(), response.reason());
         }
-        return new Exception("Error occured");
+        return new Exception("An error takes place");
     }
 }

@@ -2,6 +2,7 @@ package com.docsDownloaderProject.exception;
 
 import com.docsDownloaderProject.model.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -9,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class GoogleDocsExceptionHandler {
     @ExceptionHandler(GoogleDocsDownloaderException.class)
-    public ErrorResponse handleGoogleDocsNotFoundException(GoogleDocsDownloaderException e) {
-        return new ErrorResponse(401, e.getMessage());
+    public ResponseEntity<ErrorResponse> handleGoogleDocsNotFoundException(GoogleDocsDownloaderException e) {
+        return ResponseEntity.status(e.getStatusCode()).body(new ErrorResponse(e.getStatusCode(), e.getMessage()));
     }
 
 }

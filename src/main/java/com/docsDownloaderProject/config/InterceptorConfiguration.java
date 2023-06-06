@@ -13,7 +13,5 @@ public class InterceptorConfiguration implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
         requestTemplate.header("Authorization", "Bearer " + token);
-        requestTemplate.header("Accept", "*/*");
-        requestTemplate.header("Accept-Encoding", "gzip", "deflate", "br");
     }
 }
