@@ -20,11 +20,11 @@ public class SaveGoogleDocService {
             File file = new File("/home/java/Downloads/docs-downloader-project/src/main/resources/" + title + ".docx");
             FileOutputStream outputStream = new FileOutputStream(file);
             outputStream.write((title + "\n" + content).getBytes(Charset.defaultCharset()));
+            outputStream.close();
         } catch (IOException e) {
             throw new GoogleDocsDownloaderException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         } catch (RuntimeException e) {
             throw new GoogleDocsDownloaderException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-
         }
     }
 }
